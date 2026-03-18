@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PPP Country Comparator | Bharat Rajatiya Finance Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--a:#1b3f6e;--ah:#25548e;--ad:rgba(27,63,110,.1);--bg:#f3f6fb;--bg2:#e8edf6;--bg3:#fff;--tx:#0c1322;--t2:#475569;--t3:#8898aa;--bdr:rgba(0,0,0,.08);--gr:#0f7a3c;--gr-bg:rgba(16,122,60,.09);--red:#b91c1c;--red-bg:rgba(185,28,28,.07);--am:#b45309;--am-bg:rgba(180,83,9,.08);--serif:'Playfair Display',serif;--sans:'DM Sans',sans-serif;--mono:'DM Mono',monospace}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);min-height:100vh;-webkit-font-smoothing:antialiased}
+.hdr{background:linear-gradient(90deg,#122a52,#1b3f6e);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+.logo{font-family:var(--serif);color:#fff;font-size:1.08rem;font-weight:700}
+.back{font-size:.74rem;color:rgba(255,255,255,.7);transition:color .2s}
+.back:hover{color:#fff}
+.wrap{max-width:1020px;margin:0 auto;padding:28px 20px}
+h1{font-family:var(--serif);font-size:clamp(1.5rem,3.5vw,2rem);font-weight:700;margin-bottom:5px}
+.sub{color:var(--t2);font-size:.86rem;margin-bottom:6px}
+.note{font-size:.75rem;color:var(--t3);margin-bottom:22px;padding:8px 12px;background:var(--bg2);border-radius:6px;border-left:3px solid var(--a)}
+.card{background:var(--bg3);border:1px solid var(--bdr);border-radius:12px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.card-t{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--bdr)}
+/* top grid */
+.top-g{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.country-sel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.fg{margin-bottom:13px}
+.fl{font-family:var(--mono);font-size:.61rem;letter-spacing:.09em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.sel,.num-in{width:100%;background:var(--bg);border:1.5px solid var(--bdr);border-radius:6px;padding:9px 12px;font-family:var(--sans);font-size:.88rem;color:var(--tx);outline:none;transition:border-color .2s}
+.sel:focus,.num-in:focus{border-color:var(--a)}
+/* country card */
+.cc{background:var(--bg2);border-radius:10px;padding:16px;position:relative;overflow:hidden}
+.cc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--a),transparent)}
+.cc-flag{font-size:1.8rem;margin-bottom:6px}
+.cc-name{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--tx);margin-bottom:2px}
+.cc-income{font-family:var(--mono);font-size:.8rem;color:var(--a);margin-bottom:8px}
+/* expense breakdown */
+.exp-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:.79rem}
+.exp-row:last-child{border-bottom:none}
+.exp-cat{color:var(--t2)}
+.exp-val{font-family:var(--mono);font-weight:600;color:var(--tx)}
+.exp-pct{font-family:var(--mono);font-size:.68rem;color:var(--t3);min-width:38px;text-align:right}
+.savings-box{margin-top:10px;padding:10px;border-radius:7px;text-align:center}
+.sb-pos{background:var(--gr-bg)}
+.sb-neg{background:var(--red-bg)}
+.sb-lbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--t3);margin-bottom:3px}
+.sb-val{font-family:var(--serif);font-size:1.2rem;font-weight:700}
+.sb-val.pos{color:var(--gr)}
+.sb-val.neg{color:var(--red)}
+/* comparison panel */
+.cmp-panel{background:var(--bg2);border-radius:10px;padding:16px;margin-top:14px}
+.cmp-t{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.cmp-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:.8rem}
+.cmp-row:last-child{border-bottom:none;font-weight:700;font-size:.85rem}
+.cmp-lbl{color:var(--t2)}
+.cmp-vals{display:flex;gap:20px}
+.cmp-v{font-family:var(--mono);font-size:.78rem;font-weight:600;min-width:90px;text-align:right}
+.v-a{color:var(--a)}.v-b{color:var(--am)}
+/* insight */
+.insight{background:var(--ad);border-left:3px solid var(--a);border-radius:0 8px 8px 0;padding:13px 15px;font-size:.81rem;color:var(--t2);line-height:1.68;margin-top:14px}
+.insight strong{color:var(--a)}
+/* quality table */
+.cost-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.78rem}
+.cost-table th{background:var(--a);color:#fff;padding:7px 10px;text-align:left;font-family:var(--mono);font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;font-weight:500}
+.cost-table td{padding:6px 10px;border-bottom:1px solid var(--bdr);color:var(--t2)}
+.cost-table tr:hover td{background:var(--bg2)}
+@media(max-width:660px){.top-g{grid-template-columns:1fr}.country-sel{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">BR. Finance Tools</div>
+  <a href="https://bharatrajatiya.com" class="back">← bharatrajatiya.com</a>
+</div>
+<div class="wrap">
+  <h1>PPP Country Comparator</h1>
+  <p class="sub">Compare real purchasing power of your salary across countries. Built for professionals planning a move abroad.</p>
+  <div class="note">Data based on Numbeo Cost of Living Index, World Bank PPP data, and publicly available salary benchmarks (2024). Use as directional guidance.</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-t">Your Setup</div>
+    <div class="country-sel">
+      <div class="fg">
+        <div class="fl">Your Origin Country</div>
+        <select class="sel" id="ca" onchange="calc()">
+          <option value="india">🇮🇳 India</option>
+          <option value="uae">🇦🇪 UAE</option>
+          <option value="uk">🇬🇧 United Kingdom</option>
+          <option value="usa">🇺🇸 United States</option>
+          <option value="sg">🇸🇬 Singapore</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="fl">Target Country</div>
+        <select class="sel" id="cb" onchange="calc()">
+          <option value="uae" selected>🇦🇪 UAE</option>
+          <option value="india">🇮🇳 India</option>
+          <option value="uk">🇬🇧 United Kingdom</option>
+          <option value="usa">🇺🇸 United States</option>
+          <option value="sg">🇸🇬 Singapore</option>
+          <option value="aus">🇦🇺 Australia</option>
+          <option value="can">🇨🇦 Canada</option>
+        </select>
+      </div>
+    </div>
+    <div class="top-g">
+      <div class="fg" style="margin-bottom:0">
+        <div class="fl">Your Current Monthly Salary</div>
+        <input type="number" class="num-in" id="sal" value="150000" oninput="calc()"/>
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <div class="fl">Expected Salary in Target Country (local currency)</div>
+        <input type="number" class="num-in" id="tsal" value="25000" oninput="calc()"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="top-g" id="cards"></div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-t">Side-by-Side Comparison</div>
+    <div id="cmpTable"></div>
+    <div id="insight"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">Typical Monthly Cost of Living (2024 estimates)</div>
+    <table class="cost-table">
+      <thead><tr><th>Item</th><th id="ch1">Country A</th><th id="ch2">Country B</th></tr></thead>
+      <tbody id="costTbl"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const DATA={
+  india:{name:'India',flag:'🇮🇳',cur:'INR',sym:'₹',toUSD:0.012,
+    avg_salary:80000,ppp_index:23.1,tax:0.26,
+    expenses:{Rent:25000,Groceries:6000,'Transport':4000,'Utilities':2500,'Dining & Social':5000,'Healthcare':2000,'Entertainment':3000,'Misc':4000},
+    costs:{'1BHK Rent (city)':'₹18,000-35,000','Restaurant meal':'₹200-600','Monthly groceries':'₹5,000-8,000','Taxi 5km':'₹80-150','Gym membership':'₹1,500-3,500','Internet (1mo)':'₹700-1,200','Petrol/L':'₹100-106','Coffee':' ₹150-350'}
+  },
+  uae:{name:'UAE',flag:'🇦🇪',cur:'AED',sym:'AED',toUSD:0.272,
+    avg_salary:18000,ppp_index:51.3,tax:0,
+    expenses:{Rent:6500,Groceries:1800,'Transport':1200,'Utilities':1000,'Dining & Social':2000,'Healthcare':600,'Entertainment':1200,'Misc':1200},
+    costs:{'1BHK Rent (Dubai)':'AED 6,000-10,000','Restaurant meal':'AED 40-120','Monthly groceries':'AED 1,500-2,500','Taxi 5km':'AED 20-35','Gym membership':'AED 200-500','Internet (1mo)':'AED 350-500','Petrol/L':'AED 3.0-3.5','Coffee':'AED 18-30'}
+  },
+  uk:{name:'United Kingdom',flag:'🇬🇧',cur:'GBP',sym:'£',toUSD:1.27,
+    avg_salary:3800,ppp_index:71.0,tax:0.32,
+    expenses:{Rent:1400,Groceries:400,'Transport':200,'Utilities':280,'Dining & Social':450,'Healthcare':0,'Entertainment':250,'Misc':300},
+    costs:{"1BHK Rent (London)":'£1,500-2,500','Restaurant meal':'£12-30','Monthly groceries':'£300-450','Taxi 5km':'£8-15','Gym membership':'£30-60','Internet (1mo)':'£25-45','Petrol/L':'£1.50-1.65','Coffee':'£3.50-5.50'}
+  },
+  usa:{name:'United States',flag:'🇺🇸',cur:'USD',sym:'$',toUSD:1,
+    avg_salary:6000,ppp_index:100,tax:0.30,
+    expenses:{Rent:2200,Groceries:700,'Transport':400,'Utilities':300,'Dining & Social':600,'Healthcare':450,'Entertainment':350,'Misc':400},
+    costs:{"1BHK Rent (NYC)":'$2,500-4,500','Restaurant meal':'$15-35','Monthly groceries':'$500-800','Taxi 5km':'$15-25','Gym membership':'$40-80','Internet (1mo)':'$60-100','Petrol/gallon':'$3.50-4.00','Coffee':'$4-6'}
+  },
+  sg:{name:'Singapore',flag:'🇸🇬',cur:'SGD',sym:'S$',toUSD:0.74,
+    avg_salary:7000,ppp_index:82.0,tax:0.15,
+    expenses:{Rent:2800,Groceries:700,'Transport':250,'Utilities':200,'Dining & Social':800,'Healthcare':200,'Entertainment':400,'Misc':400},
+    costs:{"1BHK Rent":'S$2,500-4,000','Restaurant meal':'S$10-30','Monthly groceries':'S$500-800','Taxi 5km':'S$10-18','Gym membership':'S$80-150','Internet (1mo)':'S$30-50','Petrol/L':'S$2.60-2.90','Coffee':'S$1.50-4 (kopi vs cafe)'}
+  },
+  aus:{name:'Australia',flag:'🇦🇺',cur:'AUD',sym:'A$',toUSD:0.65,
+    avg_salary:7200,ppp_index:79.0,tax:0.32,
+    expenses:{Rent:2400,Groceries:700,'Transport':250,'Utilities':280,'Dining & Social':600,'Healthcare':0,'Entertainment':350,'Misc:':400},
+    costs:{"1BHK Rent (Sydney)":'A$2,000-3,500','Restaurant meal':'A$18-40','Monthly groceries':'A$500-800','Taxi 5km':'A$15-25','Gym membership':'A$50-100','Internet (1mo)':'A$70-110','Petrol/L':'A$1.90-2.10','Coffee':'A$4.50-6'}
+  },
+  can:{name:'Canada',flag:'🇨🇦',cur:'CAD',sym:'C$',toUSD:0.73,
+    avg_salary:6800,ppp_index:76.0,tax:0.31,
+    expenses:{Rent:2200,Groceries:700,'Transport':200,'Utilities':220,'Dining & Social':550,'Healthcare':0,'Entertainment':300,'Misc':400},
+    costs:{"1BHK Rent (Toronto)":'C$2,000-3,200','Restaurant meal':'C$15-35','Monthly groceries':'C$500-750','Taxi 5km':'C$15-22','Gym membership':'C$40-80','Internet (1mo)':'C$70-100','Petrol/L':'C$1.65-1.90','Coffee':'C$3.50-5.50'}
+  }
+};
+
+function fmtC(n,sym){return sym+(n>=1000?n.toLocaleString():Math.round(n).toLocaleString());}
+function toUSD(n,country){return n*DATA[country].toUSD;}
+
+function calc(){
+  const caKey=document.getElementById('ca').value;
+  const cbKey=document.getElementById('cb').value;
+  const salA=+document.getElementById('sal').value||100000;
+  const salB=+document.getElementById('tsal').value||10000;
+  const A=DATA[caKey],B=DATA[cbKey];
+  const afterTaxA=salA*(1-A.tax);
+  const afterTaxB=salB*(1-B.tax);
+  const totalExpA=Object.values(A.expenses).reduce((a,b)=>a+b,0);
+  const totalExpB=Object.values(B.expenses).reduce((a,b)=>a+b,0);
+  const savA=afterTaxA-totalExpA;
+  const savB=afterTaxB-totalExpB;
+  // PPP-adjusted equivalent
+  const salAinUSD=toUSD(salA,caKey);
+  const salBinUSD=toUSD(salB,cbKey);
+  const pppEquivB=salBinUSD*(B.ppp_index/100)/(A.ppp_index/100);
+  const pppEquivBInA=pppEquivB/A.toUSD;
+
+  // Render country cards
+  function renderCard(d,sal,label){
+    const afterTax=sal*(1-d.tax);
+    const totalExp=Object.values(d.expenses).reduce((a,b)=>a+b,0);
+    const sav=afterTax-totalExp;
+    let expRows=Object.entries(d.expenses).map(([k,v])=>`<div class="exp-row"><span class="exp-cat">${k}</span><span style="display:flex;align-items:center;gap:8px"><span class="exp-val">${fmtC(v,d.sym)}</span><span class="exp-pct">${afterTax>0?Math.round(v/afterTax*100)+'%':''}</span></span></div>`).join('');
+    const sClass=sav>=0?'sb-pos':'sb-neg';
+    const vClass=sav>=0?'pos':'neg';
+    return`<div class="card">
+      <div class="cc">
+        <div class="cc-flag">${d.flag}</div>
+        <div class="cc-name">${d.name}</div>
+        <div class="cc-income">${fmtC(sal,d.sym)} gross · ${fmtC(afterTax,d.sym)} after tax (${Math.round(d.tax*100)}% avg rate)</div>
+        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Monthly Expenses</div>
+        ${expRows}
+        <div class="savings-box ${sClass}">
+          <div class="sb-lbl">Monthly Savings</div>
+          <div class="sb-val ${vClass}">${fmtC(sav,d.sym)}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('cards').innerHTML=renderCard(A,salA,'Origin')+renderCard(B,salB,'Target');
+
+  // Comparison table
+  const savAusd=toUSD(savA,caKey);
+  const savBusd=toUSD(savB,cbKey);
+  const totalExpAusd=toUSD(totalExpA,caKey);
+  const totalExpBusd=toUSD(totalExpB,cbKey);
+  const salAusd=toUSD(salA,caKey)*1000;
+  const f=v=>v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  document.getElementById('cmpTable').innerHTML=`<div class="cmp-panel">
+    <div class="cmp-t">Comparison (values converted to USD)</div>
+    <div class="cmp-row"><span class="cmp-lbl">Gross Salary</span><div class="cmp-vals"><span class="cmp-v v-a">${A.sym}${f(salA)} ($${f(toUSD(salA,caKey))})</span><span class="cmp-v v-b">${B.sym}${f(salB)} ($${f(toUSD(salB,cbKey))})</span></div></div>
+    <div class="cmp-row"><span class="cmp-lbl">After-Tax Income</span><div class="cmp-vals"><span class="cmp-v v-a">${fmtC(Math.round(salA*(1-A.tax)),A.sym)}</span><span class="cmp-v v-b">${fmtC(Math.round(salB*(1-B.tax)),B.sym)}</span></div></div>
+    <div class="cmp-row"><span class="cmp-lbl">Total Monthly Expenses</span><div class="cmp-vals"><span class="cmp-v v-a">${fmtC(totalExpA,A.sym)}</span><span class="cmp-v v-b">${fmtC(totalExpB,B.sym)}</span></div></div>
+    <div class="cmp-row"><span class="cmp-lbl">Monthly Savings</span><div class="cmp-vals"><span class="cmp-v v-a" style="color:${savA>=0?'var(--gr)':'var(--red)'}">${fmtC(Math.round(savA),A.sym)}</span><span class="cmp-v v-b" style="color:${savB>=0?'var(--gr)':'var(--red)'}">${fmtC(Math.round(savB),B.sym)}</span></div></div>
+    <div class="cmp-row"><span class="cmp-lbl">Savings in USD</span><div class="cmp-vals"><span class="cmp-v v-a">$${f(toUSD(savA,caKey))}</span><span class="cmp-v v-b">$${f(toUSD(savB,cbKey))}</span></div></div>
+    <div class="cmp-row"><span class="cmp-lbl">PPP-Adjusted Equiv. in ${A.name}</span><div class="cmp-vals"><span class="cmp-v" style="color:var(--t3)">—</span><span class="cmp-v v-b" style="color:var(--a)">${A.sym}${f(pppEquivBInA)}</span></div></div>
+  </div>`;
+
+  // Insight
+  const savDiffUSD=toUSD(savB,cbKey)-toUSD(savA,caKey);
+  const isWorthIt=toUSD(savB,cbKey)>toUSD(savA,caKey);
+  const pppRatio=(pppEquivBInA/salA*100).toFixed(0);
+  document.getElementById('insight').innerHTML=`<div class="insight">
+    <strong>${isWorthIt?'Financially advantageous move':'Consider carefully'}</strong> — In USD terms, you would save <strong>$${f(toUSD(savB,cbKey))}/month</strong> in ${B.name} vs <strong>$${f(toUSD(savA,caKey))}/month</strong> in ${A.name}. Your ${B.name} salary of ${B.sym}${f(salB)} has a PPP purchasing power equivalent to <strong>${A.sym}${f(pppEquivBInA)} in ${A.name}</strong> (${pppRatio}% of your current gross). Tax saving${B.tax===0?' is significant: no income tax in '+B.name:'.'}</div>`;
+
+  // cost table
+  document.getElementById('ch1').textContent=A.name;
+  document.getElementById('ch2').textContent=B.name;
+  const allKeys=[...new Set([...Object.keys(A.costs),...Object.keys(B.costs)])];
+  let ct='';
+  allKeys.forEach(k=>{
+    const va=A.costs[k]||'N/A',vb=B.costs[k]||'N/A';
+    ct+=`<tr><td>${k}</td><td>${va}</td><td>${vb}</td></tr>`;
+  });
+  document.getElementById('costTbl').innerHTML=ct;
+}
+calc();
+</script>
+</body>
+</html>
